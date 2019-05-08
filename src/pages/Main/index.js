@@ -7,6 +7,7 @@ import { Container, Form } from './styles';
 
 export default class Main extends Component {
   state = {
+    repositoryError: false,
     repositoryInput: '',
     repositories: [],
   };
@@ -22,9 +23,10 @@ export default class Main extends Component {
       this.setState({
         repositoryInput: '',
         repositories: [...this.state.repositories, repository],
+        repositoryError: false,
       });
     } catch (err) {
-      console.log(err);
+      this.setState({ repositoryError: true });
     }
   };
 
@@ -33,7 +35,7 @@ export default class Main extends Component {
       <Container>
         <img src={logo} alt="Github Compare" />
 
-        <Form onSubmit={this.handleAddRespository}>
+        <Form withError={this.state.repositoryError} onSubmit={this.handleAddRespository}>
           <input
             type="text"
             placeholder="usuario/repositorio"
